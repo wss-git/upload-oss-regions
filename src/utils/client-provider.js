@@ -21,8 +21,8 @@ class ClientProvider {
 
   async getOssClient (bucket) {
     const location = await new OSS({ ...this.props, bucket }).getBucketLocation(bucket);
-    console.log('use bucket region: %s', location.location);
-    console.log('use bucket Name: %s', bucket);
+    console.log('use bucket region:\x1B[32m %s\x1B[0m', location.location);
+    console.log('use bucket Name:\x1B[32m %s\x1B[0m', bucket);
   
     return new OSS({
       ...this.props,

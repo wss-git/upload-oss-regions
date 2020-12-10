@@ -6,11 +6,6 @@ UploadOssComponent:
   Component: upload-oss-regions
   Provider: alibaba
   # Access: wss # 密钥别名
-  Extends:
-    deploy:
-      - Hook: npm install --production
-        Path: ./src
-        Pre: true
   Properties:
     # Region: cn-shenzhen # 上传到指定的单个地区
     # Region: all # 上传到所有地区

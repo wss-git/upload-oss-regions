@@ -1,11 +1,6 @@
 UploadOssComponent:
   Component: upload-oss-regions
   Provider: alibaba
-  Extends:
-    upload:
-      - Hook: npm install --production
-        Path: ./src
-        Pre: true
   Properties:
     Region: all
     Uri: .
