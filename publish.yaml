@@ -1,0 +1,30 @@
+Type: Component
+Name: upload-oss-regions
+Provider:
+  - Alibaba
+Version: 0.0.1
+Description:
+  zh: 批量上传文件到阿里云 OSS
+  en: 批量上传文件到阿里云 OSS
+HomePage: 项目首页地址
+Tags: #标签详情
+  - zh: 部署函数
+    en: English
+  - zh: 部署组件
+    en: English
+Category: 新手入门
+Service: # 使用的服务
+  - Name: 对象存储
+    Authorities: #权限描述
+      - zh: OSS 的操作权限
+        en: OSS 的操作权限
+Commands:
+  upload: 上传文件
+Properties:
+  Region: # 参数
+    Description:
+      zh: 参数描述
+      en: English
+    Required: true # 参数必选，true/false
+    Type: # 参数类型
+      - String

@@ -1,0 +1,11 @@
+{
+  "name": "upload-oss-regions",
+  "version": "0.0.1",
+  "dependencies": {
+    "@serverless-devs/s-core": "0.0.22",
+    "ali-oss": "^6.12.0",
+    "inquirer": "^7.3.3",
+    "ora": "^5.1.0",
+    "walk-sync": "^2.2.0"
+  }
+}
