@@ -11,4 +11,5 @@ UploadOssComponent:
       - .DS_Store
       - template.yml
       - .env
+      - .github
 
