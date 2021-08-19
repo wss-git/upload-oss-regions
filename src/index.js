@@ -1,27 +1,31 @@
 /** @format */
 
-const { Component } = require('@serverless-devs/s-core');
+const { commandParse, help, getCredential } = require('@serverless-devs/core');
 const ClientProvider = require('./utils/client-provider');
 const { REGIONLIST } = require('./utils/constants');
 
-class MyComponent extends Component {
-  handlerInput (inputs) {
-    const {
-      Credentials,
-      Properties
+class MyComponent {
+  async handlerInput (inputs) {
+    let {
+      credentials,
+      props,
+      project = {},
     } = inputs;
+    if (!(credentials && credentials.AccessKeyID)) {
+      credentials = await getCredential(project.access);
+    }
 
     return {
-      accessKeyId: Credentials.AccessKeyID,
-      accessKeySecret: Credentials.AccessKeySecret,
-      securityToken: Credentials.SecurityToken,
-      accountID: Credentials.AccountID,
+      accessKeyId: credentials.AccessKeyID,
+      accessKeySecret: credentials.AccessKeySecret,
+      securityToken: credentials.SecurityToken,
+      accountID: credentials.AccountID,
 
-      region: Properties.Region,
-      bucketName: Properties.BucketName,
-      objectPath: Properties.ObjectPath || '',
-      ignore: Properties.Ignore || [],
-      uri: Properties.Uri
+      region: props.Region,
+      bucketName: props.BucketName,
+      objectPath: props.ObjectPath || '',
+      ignore: props.Ignore || [],
+      uri: props.Uri
     }
   }
 
@@ -35,8 +39,26 @@ class MyComponent extends Component {
   }
 
   async upload(inputs) {
-    const { Parameters } = this.args(inputs.Args);
-    const { y, n } = Parameters;
+    const { Parameters = {} } = commandParse(inputs.args) || {};
+    const { y, n, h } = Parameters;
+    if (h) {
+      return help({
+        header: 'Options',
+        optionList: [
+          {
+            name: 'y',
+            description: '覆盖 ObjectPath 已经存在的文件',
+            type: Boolean,
+          },
+          {
+            name: 'n',
+            description: '不上传 ObjectPath 已经存在的文件',
+            type: Boolean,
+          },
+        ],
+      });
+    }
+
     if (y && n) {
       throw new Error('-y 和 -n 不能同时存在');
     }
@@ -51,7 +73,7 @@ class MyComponent extends Component {
       objectPath,
       ignore,
       uri
-    } = this.handlerInput(inputs);
+    } = await this.handlerInput(inputs);
 
     if (!region) {
       throw new Error('Region 是必填项');

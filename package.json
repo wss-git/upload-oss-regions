@@ -1,8 +1,9 @@
 {
   "name": "upload-oss-regions",
   "version": "0.0.1",
+  "main": "./src/index.js",
   "dependencies": {
-    "@serverless-devs/s-core": "0.0.22",
+    "@serverless-devs/core": "^0.0.*",
     "ali-oss": "^6.12.0",
     "inquirer": "^7.3.3",
     "ora": "^5.1.0",
