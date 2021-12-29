@@ -35,7 +35,15 @@ class ClientProvider {
     const uploadFiles = [];
 
     await this.getOrCreate(bucket);
-    const paths = await walkSync(uri, { ignore });
+
+    let paths;
+    if (fs.statSync(uri).isDirectory()) {
+      paths = await walkSync(uri, { ignore });
+    } else {
+      paths = [path.basename(uri)];
+      uri = path.dirname(uri);
+    }
+
     for(const p of paths) {
       const objectName = `${objectPath}/${p}`;
       if (!y) {
@@ -54,12 +62,13 @@ class ClientProvider {
             if (!answers.overwrite) { continue }
           }
         } catch (error) {
-          if (error.code !== 'NoSuchKey') {
+          if (error.code === 'NoSuchKey') {
             throw error;
           }
         }
       }
       const fillPath = path.resolve(uri, p);
+      console.log(objectName, uri, p);
       const stat = fs.lstatSync(fillPath);
       if (!stat.isDirectory()) {
         await spinner(`上传 ${p}`, async () => {
