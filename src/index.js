@@ -39,8 +39,10 @@ class MyComponent {
   }
 
   async upload(inputs) {
-    const { Parameters = {} } = commandParse(inputs.args) || {};
-    const { y, n, h } = Parameters;
+    const res = commandParse(inputs, {
+      boolean: ['y', 'n', 'h']
+    }) || {};
+    const { y, n, h } = res.data || {};
     if (h) {
       return help({
         header: 'Options',
